@@ -26,9 +26,6 @@ create table employee (
  )
 ''');
     });
-    // db.insert('employee', {'name': 'rana'});
-    // db.insert('employee', {'name': 'salma'});
-    // db.insert('employee', {'name': 'ali'});
   }
   // Future<Database> get database async {
   //   if (db != null) return db!;

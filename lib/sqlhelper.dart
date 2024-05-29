@@ -1,37 +1,7 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-import 'package:sqlite/models/empolyee.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SqlHelper {
-  late Database db;
-  // static final SqlHelper instance = SqlHelper._privateConstructor();
-  // SqlHelper._privateConstructor();
-
-  // Future<Database> get database async {
-  //   if (db != null) return db;
-  //   db = await open();
-  //   return db;
-  // }
-
-//   Future open() async {
-//     var databasesPath = await getDatabasesPath();
-//     String path = join(databasesPath, 'empolyee.db');
-//     db = await openDatabase(path, version: 1,
-//         onCreate: (Database db, int version) async {
-//       await db.execute('''
-// create table employee (
-//   id integer primary key autoincrement,
-//   name text not null
-//  )
-// ''');
-//     });
-//   }
-  // Future<Database> get database async {
-  //   if (db != null) return db;
-  //   db = await initDatabase();
-  //   return db;
-  // }
+  Database? db;
 
   Future<void> initDatabase() async {
     db = await openDatabase(
@@ -46,8 +16,8 @@ class SqlHelper {
   Future<void> createTable() async {
     await initDatabase();
     try {
-      await db.execute('''
-      CREATE TABLE employee(
+      await db!.execute('''
+      CREATE TABLE if not exists employee(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT
       )
@@ -57,19 +27,13 @@ class SqlHelper {
     }
   }
 
-  Future<List<Employee>> getEmployees() async {
+  Future<List<Map<String, dynamic>>> getEmployees() async {
     await initDatabase();
-    final List<Map<String, dynamic>> maps = await db.query('employee');
-    return List.generate(maps.length, (i) {
-      return Employee(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-      );
-    });
+    return await db!.query('employee');
   }
 
-  // Future<int> insertEmployee(Employee employee) async {
-  //   await initDatabase();
-  //   return await db.insert('employee', {'name': employee.name});
-  // }
+  Future<void> insertItem(String name) async {
+    await db!.insert('employee', {'name': name});
+    getEmployees();
+  }
 }

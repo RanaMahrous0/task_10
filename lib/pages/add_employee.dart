@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sqlite/models/empolyee.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:sqlite/sqlhelper.dart';
 
 class AddEmployee extends StatefulWidget {
@@ -11,12 +12,13 @@ class AddEmployee extends StatefulWidget {
 
 class _AddEmployeeState extends State<AddEmployee> {
   var nameController = TextEditingController();
-  var sqlhelper = SqlHelper();
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Employee'),
+        title: const Text('Add Employee'),
         backgroundColor: Colors.blue,
       ),
       body: Padding(
@@ -26,30 +28,26 @@ class _AddEmployeeState extends State<AddEmployee> {
           children: [
             TextField(
               controller: nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   label: Text('Name'), hintText: 'enter employee name'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton(
                 onPressed: () async {
                   try {
-                    var sqlhelper = SqlHelper();
-                    await sqlhelper.initDatabase();
-                    // await sqlhelper.createTable();
-                    await sqlhelper.db
-                        .insert('employee', {'name': nameController.text});
-                    List<Map<String, Object?>> records =
-                        await sqlhelper.db.query('employee');
-                    print(records);
+                    var sqlHelper = GetIt.I.get<SqlHelper>();
+               
+                  
+                   sqlHelper.insertItem(nameController.text);
 
-                    Navigator.pop(context, records);
+                    Navigator.pop(context);
                   } catch (e) {
                     print('error $e');
                   }
                 },
-                child: Text('Add'))
+                child: const Text('Add'))
           ],
         ),
       ),

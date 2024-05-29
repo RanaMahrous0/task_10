@@ -32,7 +32,13 @@ class _ListEmpolyeeState extends State<ListEmpolyee> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Employee'),
+        title: const Text(
+          'Employee',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         backgroundColor: Colors.blue,
       ),
       body: myFutureBuilder(),
@@ -41,6 +47,8 @@ class _ListEmpolyeeState extends State<ListEmpolyee> {
           Navigator.pushNamed(context, '/add');
         },
         child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
     );
   }
@@ -62,7 +70,9 @@ class _ListEmpolyeeState extends State<ListEmpolyee> {
             itemBuilder: (context, index) {
               return ListTile(
                 leading: const Icon(Icons.person),
-                title: Text(data[index]['name']),
+                title: Text(
+                  data[index]['name'],
+                ),
               );
             },
           );

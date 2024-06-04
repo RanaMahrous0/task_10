@@ -43,8 +43,12 @@ class _ListEmpolyeeState extends State<ListEmpolyee> {
       ),
       body: myFutureBuilder(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add');
+        onPressed: () async {
+          var result = await Navigator.pushNamed(context, '/add');
+          if (result = true) {
+            sqlHelper.getEmployees();
+          }
+          result = false;
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,

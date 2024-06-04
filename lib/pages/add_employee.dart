@@ -12,6 +12,7 @@ class AddEmployee extends StatefulWidget {
 
 class _AddEmployeeState extends State<AddEmployee> {
   var nameController = TextEditingController();
+  var formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,6 @@ class _AddEmployeeState extends State<AddEmployee> {
           children: [
             TextField(
               controller: nameController,
-              
               decoration: const InputDecoration(
                   label: Text('Name'), hintText: 'Enter Employee Name'),
             ),
@@ -41,18 +41,16 @@ class _AddEmployeeState extends State<AddEmployee> {
 
                   sqlHelper.insertItem(nameController.text);
 
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 } catch (e) {
                   print('error $e');
                 }
               },
-              child: const Text('Add'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll<Color>(Colors.blue),
-                foregroundColor: MaterialStatePropertyAll<Color>(
-                  Colors.white,
-                ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
               ),
+              child: const Text('Add'),
             )
           ],
         ),
